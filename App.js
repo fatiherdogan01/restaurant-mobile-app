@@ -33,7 +33,6 @@ function App() {
           authorization: token ? `Bearer ${token}` : ''||token2 ? `Bearer ${token2}` : ''
         }
       })
-      console.log(operation.getContext().headers.authorization)
     }
    
   });  
@@ -55,7 +54,7 @@ function App() {
           <Stack.Screen name="Tabs" component={Tabs}
             options={{ headerLeft: null, gestureEnabled: false, headerTitle: 'Restaurant App' }} />
           <Stack.Screen name="Login" component={Login}
-            options={{ headerLeft: null, gestureEnabled: false }} />
+            options={{ headerShown: false, gestureEnabled: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </ApolloProvider>
