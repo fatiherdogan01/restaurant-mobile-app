@@ -1,32 +1,22 @@
 import React, { useState } from 'react';
 import { Text, TextInput, StyleSheet, View, ActivityIndicator } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import { useMutation } from '@apollo/react-hooks';
 import { useNavigation } from '@react-navigation/native';
 import Button from '../components/button'
 import { GET_TOKEN } from '../query/GET_TOKEN';
-
-const saveToken = async (token) => {
-  try {
-    await AsyncStorage.setItem('token', token)
-  } catch (e) { }
-}
+import { setToken } from '../helper/token'
 function Login() {
-
   const navigation = useNavigation();
   const [email, setEmail] = useState("oliverjones@gmail.com");
   const [password, setPassword] = useState("123456");
-  const [loginWithEmail, { loading, error }] = useMutation(GET_TOKEN);
-  function onPress() {
-    try {
-      loginWithEmail({ variables: { email: email, password: password } })
-        .then((res) => saveToken(res.data.loginWithEmail.token))
-        .then(() => navigation.navigate("Tabs"))
 
-
-
-    } catch (error) { }
-  }
+  const [loginWithEmail, { loading, error }] = useMutation(GET_TOKEN, {
+    onCompleted: (data) => {
+      setToken('token', data.loginWithEmail.token)
+      navigation.navigate("Tabs")
+    }
+  });
+  
   return (
     <>
       <View style={styles.titleContainer}>
@@ -48,15 +38,15 @@ function Login() {
         />
         {loading && <ActivityIndicator />}
 
-        {error ? <Text style={{ color: 'red', textAlign: 'center' }}>{error.message.substr(23, 4) === '2022' || '2023' ? 'Unresolved error' : 'Network request failed'}</Text> : <View />}
-        <Button disabled={loading} onPress={() => onPress()}>
+        {error ? <Text style={{ color: 'red', textAlign: 'center' }}>{error.message === 'Network error: Network request failed' ? 'Network request failed' : 'Unsolved error'} </Text> : <View />}
+        <Button disabled={loading} onPress={() => loginWithEmail({ variables: { email: email, password: password } })}>
           <Text>Login</Text>
         </Button>
       </View>
     </>
   )
 }
-export default Login;
+
 const styles = StyleSheet.create({
   titleContainer: {
     flex: 3,
@@ -80,3 +70,4 @@ const styles = StyleSheet.create({
     borderWidth: 1
   }
 });
+export default Login;
