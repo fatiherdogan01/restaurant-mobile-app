@@ -1,6 +1,9 @@
-import React, { useLayoutEffect, useState } from 'react';
-import ApolloClient from 'apollo-boost'
+import React, { useEffect, useState } from 'react';
+import ApolloClient from 'apollo-client'
 import { ApolloProvider } from '@apollo/react-hooks';
+import { createHttpLink } from "apollo-link-http";
+import { setContext } from "apollo-link-context"
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,47 +15,52 @@ const Stack = createStackNavigator();
 
 function App() {
   const [token, setToken] = useState(null)
-  useLayoutEffect(() => {
-    getToken()
-  })
+  useEffect(() => {
+    getToken();
+  }, [])
 
   const getToken = async () => {
     try {
       const value = await AsyncStorage.getItem('token')
-      if (value !== null) { setToken(value) }
-        SplashScreen.hide()
+      if (value !== null) {
+        setToken(value)
+      }
+      SplashScreen.hide();
     } catch (e) { }
   }
+  const authLink = new setContext(async (_, { headers, ...context }) => {
+    const token = await AsyncStorage.getItem('token');
+    return {
+      headers: {
+        ...headers,
+        ...(token ? { authorization: `Bearer ${token}` } : {}),
+      },
+      ...context
+    };
+  });
 
-    const client = new ApolloClient({
-    uri: 'http://209.250.226.42:8083/graphql',
-    request: (operation) => {
-     const token2 = getToken();
-      operation.setContext({
-        headers: {
-          authorization: token ? `Bearer ${token}` : ''||token2 ? `Bearer ${token2}` : ''
-        }
-      })
+  const cache = new InMemoryCache();
+  const httpLink = createHttpLink({ uri: 'http://209.250.226.42:8083/graphql' });
+  const client = new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: cache,
+  });
+  function Route() {
+    if (token) {
+      return <Tabs />
+    } else {
+      return <Login />
     }
-   
-  });  
-
-   function Route(){
-  if(token){
-    return <Tabs/>
-  }else{
-    return <Login/>
   }
-}
 
   return (
     <ApolloProvider client={client}>
       <NavigationContainer>
         <Stack.Navigator >
           <Stack.Screen name="Route" component={Route}
-            options={{ headerLeft: null, gestureEnabled: false,headerTitle: 'Restaurant App'  }} />
+            options={{ headerTitleStyle: { alignSelf: 'center' }, headerLeft: null, gestureEnabled: false, headerTitle: 'Restaurant App' }} />
           <Stack.Screen name="Tabs" component={Tabs}
-            options={{ headerLeft: null, gestureEnabled: false, headerTitle: 'Restaurant App' }} />
+            options={{ headerTitleStyle: { alignSelf: 'center' }, headerLeft: null, gestureEnabled: false, headerTitle: 'Restaurant App' }} />
           <Stack.Screen name="Login" component={Login}
             options={{ headerShown: false, gestureEnabled: false }} />
         </Stack.Navigator>
