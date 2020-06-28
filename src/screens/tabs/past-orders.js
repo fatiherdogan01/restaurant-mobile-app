@@ -1,20 +1,16 @@
 import React from 'react';
 import { Text, FlatList, StyleSheet, View, ActivityIndicator } from 'react-native';
-import { GET_PAST_ORDERS } from '../../query/GET_PAST_ORDERS';
 import { useQuery } from '@apollo/react-hooks';
 
+import { GET_PAST_ORDERS } from '../../query/GET_PAST_ORDERS';
 import Card from '../../components/card'
 
  function PastOrders() {
-  console.log('Past Orders')
   const { loading, data, error } = useQuery(GET_PAST_ORDERS, {
     variables: {
-      index: 4,
-      limit: 5
-    },
-    onError: (err) => console.log({ err }),
-    onCompleted: () => console.log('past orders query completed')
-
+      index: 0,
+      limit: 7
+    }
   });
   const Item = ({ item }) => {
     return (
@@ -30,7 +26,6 @@ import Card from '../../components/card'
         />
         <Text style={styles.subTitle}>Order Date: {item.orderDate.substr(0, 10)}</Text>
         <Text style={styles.subTitle}>Total: {item.total}</Text>
-
       </Card>
     )
   };

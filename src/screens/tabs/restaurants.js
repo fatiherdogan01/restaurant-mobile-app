@@ -1,22 +1,19 @@
 import React from 'react';
 import { Text, FlatList, StyleSheet, View, ActivityIndicator } from 'react-native';
-import { GET_RESTAURANT } from '../../query/GET_RESTAURANTS';
 import { useQuery } from '@apollo/react-hooks';
 
+import { GET_RESTAURANT } from '../../query/GET_RESTAURANTS';
 import Card from '../../components/card'
 
  function Restaurants() {
-  console.log('Restaurants')
   const { loading, data, error } = useQuery(GET_RESTAURANT, {
     variables: {
       onlyDeals: false,
-      limit: 7,
       index: 0,
+      limit: 7,
       delivery: false,
       showOffline: false
-    },
-    onError: (err) => console.log({ err }),
-    onCompleted: () => console.log('restaurants query completed')
+    }
   });
   function Item({ item }) {
     const isDelivery = item.delivery ? 'Yes' : 'No'

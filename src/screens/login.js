@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Text, TextInput, StyleSheet, View, ActivityIndicator } from 'react-native';
 import { useMutation } from '@apollo/react-hooks';
 import { useNavigation } from '@react-navigation/native';
+
 import Button from '../components/button'
 import { GET_TOKEN } from '../query/GET_TOKEN';
 import { setToken } from '../helper/token'
+
 function Login() {
   const navigation = useNavigation();
   const [email, setEmail] = useState("oliverjones@gmail.com");
@@ -37,8 +39,9 @@ function Login() {
           value={password}
         />
         {loading && <ActivityIndicator />}
-
-        {error ? <Text style={{ color: 'red', textAlign: 'center' }}>{error.message === 'Network error: Network request failed' ? 'Network request failed' : 'Unsolved error'} </Text> : <View />}
+        {error ? <Text style={{ color: 'red', textAlign: 'center' }}>
+          {error.message === 'Network error: Network request failed' ? 'Network request failed' : 'Unsolved error'}
+         </Text> : <View />}
         <Button disabled={loading} onPress={() => loginWithEmail({ variables: { email: email, password: password } })}>
           <Text>Login</Text>
         </Button>

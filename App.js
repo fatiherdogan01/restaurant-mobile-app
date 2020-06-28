@@ -52,13 +52,13 @@ function App() {
       return <Login />
     }
   }
-
   return (
     <ApolloProvider client={client}>
       <NavigationContainer>
         <Stack.Navigator >
           <Stack.Screen name="Route" component={Route}
-            options={{ headerTitleStyle: { alignSelf: 'center' }, headerLeft: null, gestureEnabled: false, headerTitle: 'Restaurant App' }} />
+             options={{ headerTitleStyle: { alignSelf: 'center' }, headerLeft: null, gestureEnabled: false, headerTitle: 'Restaurant App' }}        
+            />
           <Stack.Screen name="Tabs" component={Tabs}
             options={{ headerTitleStyle: { alignSelf: 'center' }, headerLeft: null, gestureEnabled: false, headerTitle: 'Restaurant App' }} />
           <Stack.Screen name="Login" component={Login}
