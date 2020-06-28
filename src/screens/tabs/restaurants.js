@@ -24,7 +24,7 @@ function Restaurants() {
           <View style={{ flexDirection: 'row' }}>
             <Text style={styles.typesTitle}>Types:</Text>
             <FlatList
-              numColumns={4}
+              numColumns={2}
               columnWrapperStyle={{ justifyContent: 'flex-start' }}
               horizontal={false} data={item.types}
               renderItem={({ item }) =>
