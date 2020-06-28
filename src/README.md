@@ -1,7 +1,7 @@
 #Food Mobile App Project with React Native
-Mobile application developed with React Native and used backend Graphql
+Mobile application developed with `React Native`, `Apollo` and used backend `Graphql`
 ___
-##Usage
+##Local Installation
 `yarn install`
 `yarn android` or `yarn ios`
 ___
@@ -9,16 +9,10 @@ ___
 
 ##Features
 ###Authentication
-```jsx
-const [loginWithEmail, { loading, error }] = useMutation(GET_TOKEN, {
-    onCompleted: (data) => {
-      setToken('token', data.loginWithEmail.token)
-      navigation.navigate("Tabs")
-    }
-  });
-```
+[](/images/login.png)
 
 ###List Past Orders
+
 ###List Restaurants
 ###Get Profile 
 
