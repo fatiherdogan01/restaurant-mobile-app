@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { useQuery } from '@apollo/react-hooks';
 import { useNavigation } from '@react-navigation/native';
 
-import { GET_USER } from '../../query/GET_USER';
+import { GET_USER } from '../../graphql/query/GET_USER';
 import Button from '../../components/button'
 
 function Profile() {

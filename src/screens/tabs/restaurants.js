@@ -2,10 +2,10 @@ import React from 'react';
 import { Text, FlatList, StyleSheet, View, ActivityIndicator } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 
-import { GET_RESTAURANT } from '../../query/GET_RESTAURANTS';
+import { GET_RESTAURANT } from '../../graphql/query/GET_RESTAURANTS';
 import Card from '../../components/card'
 
- function Restaurants() {
+function Restaurants() {
   const { loading, data, error } = useQuery(GET_RESTAURANT, {
     variables: {
       onlyDeals: false,

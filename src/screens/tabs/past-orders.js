@@ -2,10 +2,10 @@ import React from 'react';
 import { Text, FlatList, StyleSheet, View, ActivityIndicator } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 
-import { GET_PAST_ORDERS } from '../../query/GET_PAST_ORDERS';
+import { GET_PAST_ORDERS } from '../../graphql/query/GET_PAST_ORDERS';
 import Card from '../../components/card'
 
- function PastOrders() {
+function PastOrders() {
   const { loading, data, error } = useQuery(GET_PAST_ORDERS, {
     variables: {
       index: 0,

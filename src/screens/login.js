@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { useNavigation } from '@react-navigation/native';
 
 import Button from '../components/button'
-import { GET_TOKEN } from '../query/GET_TOKEN';
+import { GET_TOKEN } from '../graphql/mutation/GET_TOKEN';
 import { setToken } from '../helper/token'
 
 function Login() {
@@ -18,7 +18,7 @@ function Login() {
       navigation.navigate("Tabs")
     }
   });
-  
+
   return (
     <>
       <View style={styles.titleContainer}>
@@ -41,7 +41,7 @@ function Login() {
         {loading && <ActivityIndicator />}
         {error ? <Text style={{ color: 'red', textAlign: 'center' }}>
           {error.message === 'Network error: Network request failed' ? 'Network request failed' : 'Unsolved error'}
-         </Text> : <View />}
+        </Text> : <View />}
         <Button disabled={loading} onPress={() => loginWithEmail({ variables: { email: email, password: password } })}>
           <Text>Login</Text>
         </Button>
