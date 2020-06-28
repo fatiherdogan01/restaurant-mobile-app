@@ -7,19 +7,17 @@ import { useNavigation } from '@react-navigation/native';
 import { GET_USER } from '../../query/GET_USER';
 import Button from '../../components/button'
 
- function Profile() {
+function Profile() {
   const navigation = useNavigation();
   const { loading, data, client, error } = useQuery(GET_USER);
-  function onPress() {
-    try {
-      AsyncStorage.removeItem('token')
-      .then(() => client.resetStore())
-      navigation.navigate('Login')
-    } catch (error) { }
+  async function onPress() {
+    await client.resetStore()
+    await AsyncStorage.removeItem('token')
+    navigation.navigate('Login')
 
   }
   return (
-    <>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
       {error ? <Text style={{ color: 'red', textAlign: 'center', marginTop: 200 }}>{error.message.split("\"")[5]}</Text> : <View />}
       {loading ?
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -49,16 +47,14 @@ import Button from '../../components/button'
           </Button>
         </View>
       }
-    </>
+    </View>
   )
 }
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: 'white',
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
-    borderRadius: 20
 
   },
   title: {
@@ -70,6 +66,7 @@ const styles = StyleSheet.create({
   subTitle: {
     padding: 5,
     fontSize: 18,
+    letterSpacing: 3,
   },
   adressTitle: {
     padding: 5,
